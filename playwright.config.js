@@ -5,14 +5,15 @@ export default defineConfig({
   timeout: 30000,
   retries: 0,
   use: {
-    baseURL: 'http://localhost:5174',
+    baseURL: 'http://localhost:5173',
     headless: true,
     screenshot: 'only-on-failure',
     trace: 'on-first-retry',
   },
   webServer: {
     command: 'npm run dev',
-    port: 5174,
+    port: 5173,
     reuseExistingServer: true,
+    timeout: 30000,
   },
 });

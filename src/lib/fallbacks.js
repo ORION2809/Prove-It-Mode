@@ -1,65 +1,126 @@
-const FALLBACK_CHALLENGES = [
+const FALLBACK_TRAPS = [
   {
     keywords: ['react', 'hook', 'useeffect', 'effect', 'usestate', 'state'],
-    challenge:
-      'Build a real-time character counter that tracks text input and warns the user visually when they approach a character limit. The counter should change color at 80% capacity and disable input at 100%.',
-    mustUse: 'useState and useEffect hooks',
-    cannotUse: 'Any external form library or CSS framework',
-    mustHandle: 'Empty input state and paste events that exceed the limit',
-    deliverable:
-      'A working character counter component that responds in real-time',
-    hint: 'useEffect can watch the input length and trigger side effects like color changes',
+    snippets: [
+      `useEffect(() => {
+  setCount(count + 1);
+}, []);
+// "This runs once and increments count by 1"`,
+      `useEffect(() => {
+  const data = await fetch('/api/user');
+  setUser(data);
+}, [userId]);`,
+      `const [items, setItems] = useState([]);
+items.push(newItem);
+setItems(items);`,
+    ],
+    wrongBecause: [
+      'The empty dependency array means this captures the initial value of count via closure. It will always use 0, not the current count. The functional updater setCount(c => c + 1) is needed.',
+      'useEffect callbacks cannot be async directly — await inside a non-async function is a syntax error. You need to define an async function inside the effect and call it.',
+      'Mutating the existing array reference (push) and passing the same reference to setItems means React sees no change and won\'t re-render. You need setItems([...items, newItem]).',
+    ],
   },
   {
     keywords: ['python', 'list', 'comprehension', 'dict', 'dictionary'],
-    challenge:
-      'Build a CSV data transformer that reads a multi-line CSV string, filters rows based on a condition, and outputs a new formatted string. No libraries — just raw Python string manipulation and list comprehensions.',
-    mustUse: 'List comprehensions for all data transformations',
-    cannotUse: 'csv module, pandas, or any import',
-    mustHandle: 'Rows with missing fields and extra whitespace',
-    deliverable: 'A function that takes a CSV string and returns a cleaned, filtered CSV string',
-    hint: 'Split by newline first, then split each line by comma — but watch for edge cases in the data',
+    snippets: [
+      `defaults = {"theme": "dark", "lang": "en"}
+user_settings = defaults
+user_settings["theme"] = "light"
+# defaults is still {"theme": "dark", "lang": "en"}`,
+      `matrix = [[0] * 3] * 3
+matrix[0][0] = 1
+# Only matrix[0][0] is 1`,
+      `squares = [x**2 for x in range(10) if x**2 > 20 else 0]`,
+    ],
+    wrongBecause: [
+      'Assignment in Python creates a reference, not a copy. user_settings and defaults point to the same dict. Changing one changes both. Need defaults.copy() or dict(defaults).',
+      'Multiplying a list of lists creates references to the SAME inner list. matrix[0][0] = 1 actually changes all three rows. Need [[0]*3 for _ in range(3)].',
+      'You cannot use if/else (ternary) in the filter clause of a list comprehension. The filter clause only takes if, not if/else. The ternary goes before the for: [x**2 if x**2 > 20 else 0 for x in range(10)].',
+    ],
   },
   {
     keywords: ['sql', 'join', 'query', 'database', 'select'],
-    challenge:
-      'Write a set of SQL queries for a small library system: find all books that have never been borrowed, find the most active borrower this month, and find overdue books with borrower contact info.',
-    mustUse: 'LEFT JOIN and subqueries',
-    cannotUse: 'Window functions or CTEs',
-    mustHandle: 'Books with no borrow records and borrowers with NULL contact info',
-    deliverable: 'Three working SQL queries with comments explaining the join logic',
-    hint: 'A LEFT JOIN with a WHERE NULL check is how you find records with no matches',
+    snippets: [
+      `SELECT * FROM orders
+LEFT JOIN customers ON orders.customer_id = customers.id
+WHERE customers.country = 'US';`,
+      `SELECT department, employee_name, MAX(salary)
+FROM employees
+GROUP BY department;`,
+      `SELECT * FROM products
+WHERE price > AVG(price);`,
+    ],
+    wrongBecause: [
+      'The WHERE clause on customers.country filters out NULL rows from the LEFT JOIN, effectively converting it to an INNER JOIN. The filter should be in the ON clause or use a subquery to preserve all orders.',
+      'employee_name is not in the GROUP BY clause and not aggregated. Most SQL engines will error. The query implies getting the highest-paid employee per department, which requires a subquery or window function.',
+      'You cannot use aggregate functions like AVG() directly in a WHERE clause. WHERE filters rows before aggregation. Need a subquery: WHERE price > (SELECT AVG(price) FROM products).',
+    ],
   },
   {
     keywords: ['css', 'flex', 'grid', 'layout', 'responsive'],
-    challenge:
-      'Build a responsive pricing card layout that shows 3 cards on desktop, 2 on tablet, and 1 on mobile. The middle card should be visually elevated as the "recommended" option with a badge.',
-    mustUse: 'CSS Grid with named areas or Flexbox with wrapping',
-    cannotUse: 'Any CSS framework (Bootstrap, Tailwind, etc.)',
-    mustHandle: 'Cards with varying content lengths aligning consistently',
-    deliverable: 'An HTML file with embedded CSS showing the responsive pricing layout',
-    hint: 'CSS Grid template columns with minmax() handles the responsive behavior without media queries',
+    snippets: [
+      `.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+/* This perfectly centers the child vertically */`,
+      `.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+/* On a 900px screen, each column is exactly 300px */`,
+      `.parent { position: relative; }
+.child { position: absolute; top: 50%; left: 50%; }
+/* This centers the child element */`,
+    ],
+    wrongBecause: [
+      'height: 100% only works if the parent has a defined height. If the parent is body or a div with no explicit height, 100% resolves to 0. Need min-height: 100vh or a parent with explicit height.',
+      'The gap property takes space away from the available area before distributing 1fr. Each column is (900px - 2*20px) / 3 = ~287px, not 300px. The gap is gutters between columns.',
+      'top: 50% and left: 50% positions the top-left corner of the child at the center, not the child itself. The child is offset right and down. Need transform: translate(-50%, -50%) to shift it back by half its own size.',
+    ],
   },
   {
     keywords: ['async', 'await', 'promise', 'fetch', 'api', 'javascript', 'js'],
-    challenge:
-      'Build a retry-capable data fetcher that attempts to load data from an API endpoint up to 3 times with exponential backoff. It should show the user which attempt is in progress and handle all failure modes.',
-    mustUse: 'async/await with a manual retry loop',
-    cannotUse: 'axios, fetch-retry, or any retry library',
-    mustHandle: 'Network errors, non-200 status codes, and timeout after 5 seconds per attempt',
-    deliverable: 'A reusable fetchWithRetry function and a small demo that displays status',
-    hint: 'Use a for loop with await and setTimeout wrapped in a Promise for the backoff delay',
+    snippets: [
+      `async function getData() {
+  try {
+    const response = await fetch('/api/data');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Network error');
+  }
+}
+// This catches all errors from the API`,
+      `const results = urls.map(async (url) => {
+  return await fetch(url);
+});
+// results is an array of responses`,
+      `const promise = new Promise((resolve, reject) => {
+  setTimeout(() => resolve('done'), 1000);
+});
+promise.then(console.log);
+promise.then(console.log);
+// 'done' prints once`,
+    ],
+    wrongBecause: [
+      'fetch() only rejects on network errors. A 404 or 500 response does NOT throw — it resolves with response.ok === false. This code silently treats server errors as success. Need to check response.ok before parsing.',
+      'Array.map with an async callback returns an array of Promises, not resolved values. results is Promise[] not Response[]. Need await Promise.all(results) to get actual responses.',
+      'Each .then() registers an independent handler. The promise resolves once, but both handlers fire. "done" prints twice, not once. Promises multicast to all registered handlers.',
+    ],
   },
 ];
 
-export function getFallbackChallenge(topic) {
+export function getFallbackTrap(topic) {
   const lower = topic.toLowerCase();
 
-  // Find best matching fallback by keyword overlap
   let bestMatch = null;
   let bestScore = 0;
 
-  for (const fallback of FALLBACK_CHALLENGES) {
+  for (const fallback of FALLBACK_TRAPS) {
     const score = fallback.keywords.reduce(
       (total, kw) => total + (lower.includes(kw) ? 1 : 0),
       0,
@@ -70,18 +131,13 @@ export function getFallbackChallenge(topic) {
     }
   }
 
-  // If no keyword match, return a random challenge
   if (!bestMatch || bestScore === 0) {
-    const idx = Math.floor(Math.random() * FALLBACK_CHALLENGES.length);
-    bestMatch = FALLBACK_CHALLENGES[idx];
+    const idx = Math.floor(Math.random() * FALLBACK_TRAPS.length);
+    bestMatch = FALLBACK_TRAPS[idx];
   }
 
   return {
-    challenge: bestMatch.challenge,
-    mustUse: bestMatch.mustUse,
-    cannotUse: bestMatch.cannotUse,
-    mustHandle: bestMatch.mustHandle,
-    deliverable: bestMatch.deliverable,
-    hint: bestMatch.hint,
+    snippets: bestMatch.snippets,
+    wrongBecause: bestMatch.wrongBecause,
   };
 }

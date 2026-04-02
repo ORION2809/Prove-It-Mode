@@ -18,7 +18,7 @@ export default function TopicInput({ onSubmit }) {
             What did you just learn?
           </h2>
           <p className="text-zinc-400 text-base">
-            Be specific. The more detail, the sharper the challenge.
+            Be specific. The more precise, the more uncomfortable the diagnosis.
           </p>
         </div>
 
@@ -45,7 +45,7 @@ export default function TopicInput({ onSubmit }) {
               disabled={topic.trim().length < 2}
               className="btn-primary"
             >
-              Prove It
+              Stress Test It
               <svg
                 width="16"
                 height="16"

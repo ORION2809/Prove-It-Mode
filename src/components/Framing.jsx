@@ -32,7 +32,10 @@ export default function Framing({ topic, beat, onAdvance }) {
               {topic}
             </p>
             <p className="text-xl sm:text-2xl text-zinc-200 font-medium">
-              You know it. Now prove it.
+              You think you understand it.
+            </p>
+            <p className="text-lg text-zinc-400 mt-2">
+              Let's find out where you actually do.
             </p>
           </div>
         ) : (

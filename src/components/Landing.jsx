@@ -1,4 +1,4 @@
-export default function Landing({ onStart, onViewHistory }) {
+export default function Landing({ onStart }) {
   return (
     <div className="screen-container">
       <div className="screen-content text-center animate-fade-in">
@@ -16,32 +16,32 @@ export default function Landing({ onStart, onViewHistory }) {
               strokeLinejoin="round"
               className="text-accent"
             >
-              <polyline points="16 18 22 12 16 6" />
-              <polyline points="8 6 2 12 8 18" />
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
           </div>
         </div>
 
         {/* Hero */}
-        <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-balance leading-[1.1] mb-6">
-          <span className="text-accent">Prove It</span> Mode
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-balance leading-[1.1] mb-6">
+          You think you
+          <br />
+          <span className="text-accent">understand it.</span>
         </h1>
 
         <p className="text-lg sm:text-xl text-zinc-400 max-w-md mx-auto mb-4 leading-relaxed text-balance">
-          You just learned something.
-          <br />
-          Now prove you can build with it.
+          Find out exactly where your understanding breaks — before you open your editor and discover it the hard way.
         </p>
 
         <p className="text-sm text-zinc-500 max-w-sm mx-auto mb-12">
-          Constraint-loaded challenges. Real feedback. Proof you built something
-          — without a tutorial.
+          Not a quiz. Not a challenge. A mirror for your mental model.
         </p>
 
         {/* CTA */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col items-center justify-center gap-4">
           <button onClick={onStart} className="btn-primary text-lg px-10 py-4">
-            Enter Prove It Mode
+            Stress test my understanding
             <svg
               width="18"
               height="18"
@@ -56,15 +56,11 @@ export default function Landing({ onStart, onViewHistory }) {
               <polyline points="12 5 19 12 12 19" />
             </svg>
           </button>
-
-          <button onClick={onViewHistory} className="btn-ghost">
-            View Build History
-          </button>
         </div>
 
         {/* Social proof hint */}
         <p className="mt-16 text-xs text-zinc-600">
-          No signup required. Just type what you learned and go.
+          No signup. No score. Takes under 5 minutes.
         </p>
       </div>
     </div>

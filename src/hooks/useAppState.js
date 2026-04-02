@@ -5,46 +5,33 @@ export const SCREENS = {
   INPUT: 'INPUT',
   FRAMING_BEAT1: 'FRAMING_BEAT1',
   FRAMING_BEAT2: 'FRAMING_BEAT2',
-  LOADING_CHALLENGE: 'LOADING_CHALLENGE',
-  CHALLENGE: 'CHALLENGE',
-  ATTEMPT: 'ATTEMPT',
-  LOADING_FEEDBACK: 'LOADING_FEEDBACK',
-  FEEDBACK: 'FEEDBACK',
-  SAVING_ARTIFACT: 'SAVING_ARTIFACT',
-  ARTIFACT_SAVED: 'ARTIFACT_SAVED',
-  HISTORY: 'HISTORY',
+  LOADING_TRAP: 'LOADING_TRAP',
+  TRAP: 'TRAP',
+  LOADING_MIRROR: 'LOADING_MIRROR',
+  MIRROR: 'MIRROR',
 };
 
 const ACTIONS = {
   START: 'START',
   SUBMIT_TOPIC: 'SUBMIT_TOPIC',
   ADVANCE_FRAMING: 'ADVANCE_FRAMING',
-  SET_CHALLENGE: 'SET_CHALLENGE',
-  SET_CHALLENGE_ERROR: 'SET_CHALLENGE_ERROR',
-  BEGIN_ATTEMPT: 'BEGIN_ATTEMPT',
-  UPDATE_ATTEMPT: 'UPDATE_ATTEMPT',
-  SUBMIT_ATTEMPT: 'SUBMIT_ATTEMPT',
-  SET_FEEDBACK: 'SET_FEEDBACK',
-  SET_FEEDBACK_ERROR: 'SET_FEEDBACK_ERROR',
-  TRY_AGAIN: 'TRY_AGAIN',
-  SAVE_ARTIFACT: 'SAVE_ARTIFACT',
-  SET_ARTIFACT_SAVED: 'SET_ARTIFACT_SAVED',
-  NEW_CHALLENGE: 'NEW_CHALLENGE',
-  VIEW_HISTORY: 'VIEW_HISTORY',
+  SET_TRAP: 'SET_TRAP',
+  SET_TRAP_ERROR: 'SET_TRAP_ERROR',
+  UPDATE_CONFESSION: 'UPDATE_CONFESSION',
+  SUBMIT_CONFESSIONS: 'SUBMIT_CONFESSIONS',
+  SET_MIRROR: 'SET_MIRROR',
+  SET_MIRROR_ERROR: 'SET_MIRROR_ERROR',
+  START_OVER: 'START_OVER',
   GO_HOME: 'GO_HOME',
 };
 
 const initialState = {
   screen: SCREENS.LANDING,
   topic: null,
-  challenge: null,
-  attempt: '',
-  feedback: null,
-  previousFeedback: null,
-  iterations: 0,
-  savedArtifact: null,
+  trap: null,
+  confessions: ['', '', ''],
+  mirror: null,
   error: null,
-  timerStart: null,
 };
 
 function reducer(state, action) {
@@ -54,97 +41,62 @@ function reducer(state, action) {
 
     case ACTIONS.SUBMIT_TOPIC:
       return {
-        ...state,
+        ...initialState,
         screen: SCREENS.FRAMING_BEAT1,
         topic: action.payload.trim(),
-        challenge: null,
-        attempt: '',
-        feedback: null,
-        previousFeedback: null,
-        iterations: 0,
-        savedArtifact: null,
-        error: null,
-        timerStart: null,
       };
 
     case ACTIONS.ADVANCE_FRAMING:
       if (state.screen === SCREENS.FRAMING_BEAT1) {
         return { ...state, screen: SCREENS.FRAMING_BEAT2 };
       }
-      return { ...state, screen: SCREENS.LOADING_CHALLENGE };
+      return { ...state, screen: SCREENS.LOADING_TRAP };
 
-    case ACTIONS.SET_CHALLENGE:
+    case ACTIONS.SET_TRAP:
       return {
         ...state,
-        screen: SCREENS.CHALLENGE,
-        challenge: action.payload,
+        screen: SCREENS.TRAP,
+        trap: action.payload,
         error: null,
       };
 
-    case ACTIONS.SET_CHALLENGE_ERROR:
+    case ACTIONS.SET_TRAP_ERROR:
       return {
         ...state,
-        screen: SCREENS.CHALLENGE,
-        challenge: action.payload.fallback,
+        screen: SCREENS.TRAP,
+        trap: action.payload.fallback,
         error: action.payload.message,
       };
 
-    case ACTIONS.BEGIN_ATTEMPT:
+    case ACTIONS.UPDATE_CONFESSION: {
+      const newConfessions = [...state.confessions];
+      newConfessions[action.payload.index] = action.payload.text;
+      return { ...state, confessions: newConfessions };
+    }
+
+    case ACTIONS.SUBMIT_CONFESSIONS:
+      return { ...state, screen: SCREENS.LOADING_MIRROR };
+
+    case ACTIONS.SET_MIRROR:
       return {
         ...state,
-        screen: SCREENS.ATTEMPT,
-        timerStart: state.timerStart || Date.now(),
-      };
-
-    case ACTIONS.UPDATE_ATTEMPT:
-      return { ...state, attempt: action.payload };
-
-    case ACTIONS.SUBMIT_ATTEMPT:
-      return { ...state, screen: SCREENS.LOADING_FEEDBACK };
-
-    case ACTIONS.SET_FEEDBACK:
-      return {
-        ...state,
-        screen: SCREENS.FEEDBACK,
-        feedback: action.payload,
-        iterations: state.iterations + 1,
+        screen: SCREENS.MIRROR,
+        mirror: action.payload,
         error: null,
       };
 
-    case ACTIONS.SET_FEEDBACK_ERROR:
+    case ACTIONS.SET_MIRROR_ERROR:
       return {
         ...state,
-        screen: SCREENS.FEEDBACK,
-        feedback: null,
+        screen: SCREENS.TRAP,
         error: action.payload,
       };
 
-    case ACTIONS.TRY_AGAIN:
-      return {
-        ...state,
-        screen: SCREENS.ATTEMPT,
-        previousFeedback: formatFeedbackForContext(state.feedback),
-        feedback: null,
-      };
-
-    case ACTIONS.SAVE_ARTIFACT:
-      return { ...state, screen: SCREENS.SAVING_ARTIFACT };
-
-    case ACTIONS.SET_ARTIFACT_SAVED:
-      return {
-        ...state,
-        screen: SCREENS.ARTIFACT_SAVED,
-        savedArtifact: action.payload,
-      };
-
-    case ACTIONS.NEW_CHALLENGE:
+    case ACTIONS.START_OVER:
       return {
         ...initialState,
         screen: SCREENS.INPUT,
       };
-
-    case ACTIONS.VIEW_HISTORY:
-      return { ...state, screen: SCREENS.HISTORY };
 
     case ACTIONS.GO_HOME:
       return { ...initialState };
@@ -152,16 +104,6 @@ function reducer(state, action) {
     default:
       return state;
   }
-}
-
-function formatFeedbackForContext(feedback) {
-  if (!feedback) return null;
-  return [
-    `WHAT WORKS: ${feedback.whatWorks}`,
-    `WHAT'S MISSING: ${feedback.whatsMissing}`,
-    `CONSTRAINT CHECK: ${feedback.constraintCheck}`,
-    `NEXT STEP: ${feedback.nextStep}`,
-  ].join('\n');
 }
 
 export function useAppState() {
@@ -180,65 +122,46 @@ export function useAppState() {
       [],
     ),
 
-    setChallenge: useCallback(
-      (challenge) => dispatch({ type: ACTIONS.SET_CHALLENGE, payload: challenge }),
+    setTrap: useCallback(
+      (trap) => dispatch({ type: ACTIONS.SET_TRAP, payload: trap }),
       [],
     ),
 
-    setChallengeError: useCallback(
+    setTrapError: useCallback(
       (message, fallback) =>
         dispatch({
-          type: ACTIONS.SET_CHALLENGE_ERROR,
+          type: ACTIONS.SET_TRAP_ERROR,
           payload: { message, fallback },
         }),
       [],
     ),
 
-    beginAttempt: useCallback(
-      () => dispatch({ type: ACTIONS.BEGIN_ATTEMPT }),
+    updateConfession: useCallback(
+      (index, text) =>
+        dispatch({
+          type: ACTIONS.UPDATE_CONFESSION,
+          payload: { index, text },
+        }),
       [],
     ),
 
-    updateAttempt: useCallback(
-      (text) => dispatch({ type: ACTIONS.UPDATE_ATTEMPT, payload: text }),
+    submitConfessions: useCallback(
+      () => dispatch({ type: ACTIONS.SUBMIT_CONFESSIONS }),
       [],
     ),
 
-    submitAttempt: useCallback(
-      () => dispatch({ type: ACTIONS.SUBMIT_ATTEMPT }),
+    setMirror: useCallback(
+      (mirror) => dispatch({ type: ACTIONS.SET_MIRROR, payload: mirror }),
       [],
     ),
 
-    setFeedback: useCallback(
-      (feedback) => dispatch({ type: ACTIONS.SET_FEEDBACK, payload: feedback }),
+    setMirrorError: useCallback(
+      (message) => dispatch({ type: ACTIONS.SET_MIRROR_ERROR, payload: message }),
       [],
     ),
 
-    setFeedbackError: useCallback(
-      (message) => dispatch({ type: ACTIONS.SET_FEEDBACK_ERROR, payload: message }),
-      [],
-    ),
-
-    tryAgain: useCallback(() => dispatch({ type: ACTIONS.TRY_AGAIN }), []),
-
-    saveArtifact: useCallback(
-      () => dispatch({ type: ACTIONS.SAVE_ARTIFACT }),
-      [],
-    ),
-
-    setArtifactSaved: useCallback(
-      (artifact) =>
-        dispatch({ type: ACTIONS.SET_ARTIFACT_SAVED, payload: artifact }),
-      [],
-    ),
-
-    newChallenge: useCallback(
-      () => dispatch({ type: ACTIONS.NEW_CHALLENGE }),
-      [],
-    ),
-
-    viewHistory: useCallback(
-      () => dispatch({ type: ACTIONS.VIEW_HISTORY }),
+    startOver: useCallback(
+      () => dispatch({ type: ACTIONS.START_OVER }),
       [],
     ),
 

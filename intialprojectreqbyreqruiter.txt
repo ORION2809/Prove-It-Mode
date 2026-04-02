@@ -1,0 +1,72 @@
+ENTREXT – 72 Hour Build Assignment 
+Entrext is a venture studio. We build small and large software products that people and 
+businesses actually enjoy using. We care about choosing the right problems, moving fast, and 
+building things that truly work. This assignment is designed to show us how you think and how 
+you act when time is limited and things are not clearly defined. 
+You have seventy two hours to complete this assignment. The goal is simple: take one real 
+problem that many people struggle with and turn it into a working software feature. Not a design, 
+not an idea, not a presentation. Something real that a user can actually use. 
+You must choose one problem from the following list.  
+_________________________________________________________________________ 
+The Problems (Choose ONE) 
+Niche - Outcome Based Learning Platforms 
+Pick only one of the problems below. 
+These are real problems, asked again and again by many people online . 
+1. Intellectual Community Fragmentation 
+Problem Statement: Curious individuals lack small, structured, high-quality spaces for 
+intellectual discussion outside of formal education. 
+2. Intellectual Discovery Fatigue 
+Problem Statement: In an era of infinite content, discovery feels overwhelming rather 
+than enriching. Users struggle to find meaningful, high-quality intellectual experiences. 
+3.  Student Cognitive Load Overload 
+Problem Statement: Students struggle not due to workload quantity, but due to poor 
+cognitive load distribution across time. 
+4. The Silent Learning Gap Problem 
+Problem Statement: I finished many online courses, but I still can’t build anything on              
+my own. 
+5. The Curiosity-to-Action Gap 
+Problem Statement: Many learners consume inspiring content daily but rarely convert 
+curiosity into structured action or skill-building. 
+You don’t need to prove the problem exists. 
+Your job is to pick one and build something useful for it. 
+______________________________________________________________________ 
+Within seventy two hours, you are expected to  
+Choose one problem, clearly understand who the user is, decide on one useful feature, 
+and build that feature completely. This includes what the user sees and the logic behind 
+it that makes it work. You are allowed to use any tools you want, including AI, no-code 
+tools, low-code tools, APIs, templates, or automations. The focus is on speed and 
+usefulness, not on how the product is built.  
+There are a few important rules. You only have seventy two hours. You must build only one 
+feature. You should not think about a full product or future roadmap. Designs or mockups alone 
+are not enough. The feature must actually work. If a real user cannot use it, it does not count. 
+At the start, spend time truly understanding the problem you picked. Write a short 
+explanation describing who the user is, when this problem feels the worst for them, what they 
+have already tried that did not work, and why this situation is frustrating or stressful. Keep this 
+simple and honest. Fancy language is not needed. 
+Next, decide what single feature you will build. This feature should solve one clear 
+moment of the problem, not the entire problem. Be very clear about what the feature does 
+and what it does not do. Think about what changes for the user after using it once. If you 
+cannot explain the feature in very simple words, it is probably too big.Research about the 
+competitor and try to make the feature which causes a differentiation. 
+After that, build and ship. You should create a simple interface that a user can interact with and 
+connect it to real logic behind the scenes. Data should be saved, processed, or generated in a 
+meaningful way. The user should clearly see a result or benefit after using it. Login systems, 
+payments, and analytics are optional and should only be added if they are truly required for the 
+feature to work. 
+( You can take a look at an application called Secret Room[secretroom.entrext.in] / CurioCafe    
+[curiocafe.entrext.com] , it's a great example of building one feature based application ) 
+At the end, reflect on your work. Explain why you chose this problem over the others. Share 
+what assumption you are most unsure about. Talk about what surprised you while building. Be 
+honest about whether you would personally use this product. Finally, explain how this feature 
+could grow into a small paid product and how it might later become part of a bigger business. 
+We are not judging perfect design, advanced technology, or big market theories. We are looking 
+at how you choose a problem, how clearly you think, how well you control scope, how fast you 
+move, and whether you can turn an idea into something real under pressure. This assignment 
+helps us understand whether you think like a builder and a founder. 
+Kindly Submit Your Assignment / Working Prototype Project to : submissions@entrext.in 
+Also CC it  to : disha.entrext@gmail.com [Mandatory] 
+Points to keep in Mind : - -  
+We do not require any to - do /project planner or summary notes tool as they are already 
+there.  
+We require  something unique /something out of the box but useful for the people which 
+solves their pain point 
