@@ -1,8 +1,59 @@
 # Prove It Mode
 
-> You just learned something. Now prove it.
+> A system that forces learners to prove they can build — under constraints.
 
-Constraint-loaded challenges that turn knowledge into real building. No tutorials. No hand-holding. Just you, the constraints, and a blank editor.
+Most people finish tutorials and still can't build anything.
+
+This creates a 60-minute, constraint-loaded challenge from what you just learned — forces you to attempt it — and gives you real feedback.
+
+No tutorials. No hints. Just proof.
+
+## Live Demo
+
+**https://assignment-ruby-kappa.vercel.app**
+
+## What to Try (30 seconds)
+
+1. Type: `React useEffect`
+2. Enter Prove It Mode
+3. Read the constraints
+4. Attempt the challenge
+5. Submit → see feedback
+6. Check "What You've Built"
+
+That's the entire product.
+
+## Why This Exists
+
+After finishing tutorials, most learners hit the same moment: they open an editor — and nothing starts.
+
+The problem is not lack of knowledge. It is lack of forced application.
+
+Prove It Mode exists to create that moment — and remove the escape.
+
+## How It Works
+
+1. You enter what you just learned
+2. The system generates a constraint-based challenge (what you must use, what you can't use, what you must handle)
+3. You attempt it in a blank editor — without help
+4. You get direct, structured feedback from a senior-dev-style code review
+5. You improve, iterate, and save proof of what you built
+
+## What Makes This Different
+
+ChatGPT gives ideas.
+
+Prove It Mode gives constraints, forces an attempt, and tracks proof.
+
+That difference changes behavior.
+
+## Output (Artifacts)
+
+Each session creates a saved artifact:
+
+> "Built: localStorage book tracker (React useEffect)"
+
+This turns learning into visible proof — not just consumption. Every challenge you complete is saved to your build history with the challenge, your code, and the feedback you received.
 
 ## Quick Start
 
